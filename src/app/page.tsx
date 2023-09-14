@@ -3,7 +3,6 @@ import React from "react";
 import { postActions } from "@/redux/postsSlice";
 import { useAppDispatch, useAppSelector } from "./hooks";
 import {
-  AppBar,
   Box,
   Toolbar,
   Button,
@@ -11,8 +10,6 @@ import {
   Card,
   CardContent,
   Typography,
-  CardActions,
-  Collapse,
   CardMedia,
   Avatar,
   CardHeader,
@@ -21,23 +18,30 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 export default function Home() {
   const dispatch = useAppDispatch();
+
   const [limit, setLimit] = React.useState(12);
+
+  React.useEffect(() => {
+    dispatch(postActions.fetchFeaturedPosts({ limit: 4, skip: 0 }));
+    dispatch(postActions.fetchAllCate({}));
+  }, [dispatch]);
 
   React.useEffect(() => {
     dispatch(postActions.fetchAllPosts({ limit: limit, skip: 4 }));
   }, [dispatch, limit]);
 
   const handleLoadmore = () => {
-    setLimit(limit + 10);
+    setLimit(limit + 12);
   };
 
   const pages: Array<any> = useAppSelector((state) => state.allCate);
   const featuredPosts: Array<any> = useAppSelector(
     (state) => state.featuredPosts
   );
+
   const posts: Array<any> = useAppSelector((state) => state.allPosts);
 
-  console.log(featuredPosts);
+  console.log("featuredPosts", featuredPosts);
 
   return (
     <main>
@@ -55,10 +59,47 @@ export default function Home() {
           </Box>
         </Toolbar>
       </Box>
-      <Box>
+      <Box sx={{ my: 2 }}>
         <Grid container>
           <Grid item xs={9}>
-            {/* {featuredPosts.at(0).tieuDe} */}
+            {featuredPosts.slice(0, 1).map((post, index) => (
+              <Card key={index}>
+                <CardMedia
+                  sx={{ height: "600px" }}
+                  image={post.anhDaiDien}
+                  title="green iguana"
+                />
+                <CardContent>
+                  <Typography gutterBottom variant="h5" component="div">
+                    {post.tieuDe}
+                  </Typography>
+                  <Typography variant="body2" color="text.secondary">
+                    {post.ngayTao}
+                  </Typography>
+                </CardContent>
+              </Card>
+            ))}
+          </Grid>
+          <Grid item xs={3} container direction="column">
+            {featuredPosts.slice(1).map((post, index) => (
+              <Grid key={index}>
+                <Card>
+                  <CardMedia
+                    sx={{ height: "120px" }}
+                    image={post.anhDaiDien}
+                    title="green iguana"
+                  />
+                  <CardContent>
+                    <Typography gutterBottom variant="h8" component="div">
+                      {post.tieuDe}
+                    </Typography>
+                    <Typography variant="body2" color="text.secondary">
+                      {post.ngayTao}
+                    </Typography>
+                  </CardContent>
+                </Card>
+              </Grid>
+            ))}
           </Grid>
         </Grid>
       </Box>

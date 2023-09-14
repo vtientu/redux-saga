@@ -34,6 +34,7 @@ function* fetchFeaturedPosts(
 ): any {
   try {
     let response = yield call(getDanhSachTinTuc, action.payload);
+    console.log("fetchFeaturedPosts", response);
 
     if (response.status === 200) {
       yield put(postActions.setFeaturedPosts(response.data.data));
