@@ -1,4 +1,4 @@
-import { postsSaga } from "./postsSaga";
+import { postsSaga } from "../saga/postsSaga";
 import createSagaMiddleware from "redux-saga";
 import { configureStore } from "@reduxjs/toolkit";
 import postsSlice from "./postsSlice";

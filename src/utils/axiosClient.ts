@@ -10,6 +10,7 @@ const axiosClient = axios.create({
 
 axiosClient.interceptors.request.use(
   function (config) {
+    //Gửi kèm accessToken nếu như có tính năng đăng nhập
     return config;
   },
   function (error) {
@@ -22,6 +23,10 @@ axiosClient.interceptors.response.use(
     return response;
   },
   function (error) {
+    console.log(error.response);
+    if (error.response.status === 404) {
+      console.log("NOT FOUND");
+    }
     return Promise.reject(error);
   }
 );

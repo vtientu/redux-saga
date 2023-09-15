@@ -1,7 +1,7 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 import { RootState } from "./store";
-import { ParamGetDanhSachTinTuc } from "@/services/tinTucService";
-import { ParamDanhMuc } from "@/services/danhMucService";
+import { ParamGetDanhSachTinTuc } from "@/services/tinTuc.service";
+import { ParamDanhMuc } from "@/services/danhMuc.service";
 export interface IInitialState {
   featuredPosts: Array<any>;
   allPosts: Array<any>;
